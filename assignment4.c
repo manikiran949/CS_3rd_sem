@@ -1,5 +1,5 @@
 /*
-   Mani Kiran, 2212056
+   Mani Kiran , 2212056
 */
 #include<stdio.h>
 void tosparse(int n,int a[n][n]){
@@ -131,11 +131,6 @@ int main(){
     mul(5,x,y);
     power(5,x,4);
     printf("power is :\n");
-    for(int i=0;i<5;i++){
-        for(int j=0;j<5;j++){
-            printf("%d ",x[i][j]);
-        }
-        printf("\n");
-    }
+    tosparse(5,x);
     return 0;
 }
