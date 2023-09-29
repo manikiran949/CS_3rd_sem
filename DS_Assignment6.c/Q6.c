@@ -1,3 +1,12 @@
+/*
+    Mani Kiran , 2212056.
+*/
+
+/*
+   Program to reverse a doubly linked list.
+   time complexity is O(n).
+   space complexity is O(n).
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
