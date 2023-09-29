@@ -1,18 +1,23 @@
 /*
-   Mani Kiran , 2212056
+   Mani Kiran , 2212056.
 */
+
+// Program to implement polynomial expression using a singly linked list.
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Term {
+struct Term
+{
     int coefficient;
     int exponent;
-    struct Term* next;
+    struct Term *next;
 };
 
-struct Term* createTerm(int coefficient, int exponent) {
-    struct Term* newTerm = (struct Term*)malloc(sizeof(struct Term));
-    if (newTerm == NULL) {
+struct Term *createTerm(int coefficient, int exponent)
+{
+    struct Term *newTerm = (struct Term *)malloc(sizeof(struct Term));
+    if (newTerm == NULL)
+    {
         fprintf(stderr, "Memory allocation failed\n");
         exit(1);
     }
@@ -22,28 +27,37 @@ struct Term* createTerm(int coefficient, int exponent) {
     return newTerm;
 }
 
-void addTerm(struct Term** poly, int coefficient, int exponent) {
-    struct Term* newTerm = createTerm(coefficient, exponent);
-    if (*poly == NULL) {
+void addTerm(struct Term **poly, int coefficient, int exponent)
+{
+    struct Term *newTerm = createTerm(coefficient, exponent);
+    if (*poly == NULL)
+    {
         *poly = newTerm;
-    } else {
-        struct Term* current = *poly;
-        while (current->next != NULL) {
+    }
+    else
+    {
+        struct Term *current = *poly;
+        while (current->next != NULL)
+        {
             current = current->next;
         }
         current->next = newTerm;
     }
 }
 
-void displayPolynomial(struct Term* poly) {
-    if (poly == NULL) {
+void displayPolynomial(struct Term *poly)
+{
+    if (poly == NULL)
+    {
         printf("Polynomial is empty.\n");
         return;
     }
-    
-    while (poly != NULL) {
+
+    while (poly != NULL)
+    {
         printf("%dx^%d", poly->coefficient, poly->exponent);
-        if (poly->next != NULL) {
+        if (poly->next != NULL)
+        {
             printf(" + ");
         }
         poly = poly->next;
@@ -51,8 +65,9 @@ void displayPolynomial(struct Term* poly) {
     printf("\n");
 }
 
-int main() {
-    struct Term* polynomial = NULL;
+int main()
+{
+    struct Term *polynomial = NULL;
 
     // Adding terms to the polynomial
     addTerm(&polynomial, 3, 2);
