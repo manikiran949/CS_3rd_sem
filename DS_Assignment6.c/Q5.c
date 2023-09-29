@@ -1,23 +1,37 @@
 /*
    Mani Kiran , 2212056
 */
+
+/*
+   Program to delete from a doubly linked list as given below-
+   (a) Delete from front
+   (b) Delete from the last
+   (c) Delete a given number
+
+   time complexity is O(n).
+   space complexity is O(n).
+*/
 #include <stdio.h>
 #include <stdlib.h>
-struct Node{
+struct Node
+{
     int data;
     struct Node *prev;
     struct Node *next;
 };
-struct Node *createNode(int data){
+struct Node *createNode(int data)
+{
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data = data;
     newNode->prev = NULL;
     newNode->next = NULL;
     return newNode;
 }
-void insertAtFront(struct Node **head, int data){
+void insertAtFront(struct Node **head, int data)
+{
     struct Node *newNode = createNode(data);
-    if (*head == NULL){
+    if (*head == NULL)
+    {
         *head = newNode;
         return;
     }
@@ -26,54 +40,74 @@ void insertAtFront(struct Node **head, int data){
     *head = newNode;
 }
 
-void insertAtLast(struct Node **head, int data){
+void insertAtLast(struct Node **head, int data)
+{
     struct Node *newNode = createNode(data);
-    if (*head == NULL){
+    if (*head == NULL)
+    {
         *head = newNode;
         return;
     }
     struct Node *current = *head;
-    while (current->next != NULL) current = current->next;
+    while (current->next != NULL)
+        current = current->next;
     current->next = newNode;
     newNode->prev = current;
 }
-void deleteFromFront(struct Node **head){
-    if (*head == NULL) return;
+void deleteFromFront(struct Node **head)
+{
+    if (*head == NULL)
+        return;
     struct Node *temp = *head;
     *head = (*head)->next;
-    if (*head != NULL) (*head)->prev = NULL;
+    if (*head != NULL)
+        (*head)->prev = NULL;
     free(temp);
 }
-void deleteFromLast(struct Node **head){
-    if (*head == NULL) return;
+void deleteFromLast(struct Node **head)
+{
+    if (*head == NULL)
+        return;
     struct Node *current = *head;
-    while (current->next != NULL) current = current->next;
-    if (current->prev != NULL) current->prev->next = NULL;
-    else *head = NULL;
+    while (current->next != NULL)
+        current = current->next;
+    if (current->prev != NULL)
+        current->prev->next = NULL;
+    else
+        *head = NULL;
     free(current);
 }
-void deleteGivenNumber(struct Node **head, int data){
+void deleteGivenNumber(struct Node **head, int data)
+{
     struct Node *current = *head;
-    while (current != NULL){
-        if (current->data == data){
-            if (current->prev != NULL) current->prev->next = current->next;
-            else  *head = current->next;
-            if (current->next != NULL) current->next->prev = current->prev;
+    while (current != NULL)
+    {
+        if (current->data == data)
+        {
+            if (current->prev != NULL)
+                current->prev->next = current->next;
+            else
+                *head = current->next;
+            if (current->next != NULL)
+                current->next->prev = current->prev;
             free(current);
             return;
         }
         current = current->next;
     }
 }
-void printList(struct Node *head){
+void printList(struct Node *head)
+{
     struct Node *current = head;
-    while (current != NULL){
+    while (current != NULL)
+    {
         printf("%d ", current->data);
         current = current->next;
     }
     printf("\n");
 }
-int main(){
+int main()
+{
     struct Node *head = NULL;
     insertAtFront(&head, 3);
     insertAtFront(&head, 2);
