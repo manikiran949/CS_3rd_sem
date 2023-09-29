@@ -1,6 +1,12 @@
 /*
    Mani Kiran , 2212056
 */
+
+/*
+   program to multiply two polynomial expressions that are represented using a singly linked list.
+   time complexity is O(m * n).
+   space complexity is O(m + n + p).
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
