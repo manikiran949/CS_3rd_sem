@@ -4,133 +4,120 @@
 
 /*
     program to add two polynomial expressions that are represented using a singly linked list.
-    time complexity is O(m + n)
-    space complexity is O(m + n + p).
 */
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Term
+struct Node
 {
-    int coefficient;
-    int exponent;
-    struct Term *next;
+	int coeff;
+	int pow;
+	struct Node *next;
 };
 
-struct Term *createTerm(int coefficient, int exponent)
+void create(int x, int y, struct Node **temp)
 {
-    struct Term *newTerm = (struct Term *)malloc(sizeof(struct Term));
-    if (newTerm == NULL)
-    {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(1);
-    }
-    newTerm->coefficient = coefficient;
-    newTerm->exponent = exponent;
-    newTerm->next = NULL;
-    return newTerm;
+	struct Node *first, *second;
+	second = *temp;
+	if (second == NULL)
+	{
+		first = (struct Node *)malloc(sizeof(struct Node));
+		first->coeff = x;
+		first->pow = y;
+		*temp = first;
+		first->next = (struct Node *)malloc(sizeof(struct Node));
+		first = first->next;
+		first->next = NULL;
+	}
+	else
+	{
+		first->coeff = x;
+		first->pow = y;
+		first->next = (struct Node *)malloc(sizeof(struct Node));
+		first = first->next;
+		first->next = NULL;
+	}
 }
 
-void addTerm(struct Term **poly, int coefficient, int exponent)
+void display(struct Node *node)
 {
-    struct Term *newTerm = createTerm(coefficient, exponent);
-    if (*poly == NULL)
-    {
-        *poly = newTerm;
-    }
-    else
-    {
-        struct Term *current = *poly;
-        while (current->next != NULL)
-        {
-            current = current->next;
-        }
-        current->next = newTerm;
-    }
+	while (node->next != NULL)
+	{
+		printf("%dx^%d", node->coeff, node->pow);
+		node = node->next;
+		if (node->coeff >= 0)
+		{
+			if (node->next != NULL)
+				printf("+");
+		}
+	}
+	printf("\n");
 }
 
-struct Term *addPolynomials(struct Term *poly1, struct Term *poly2)
+void polyadd(struct Node *poly1, struct Node *poly2, struct Node *poly)
 {
-    struct Term *result = NULL;
+	while (poly1->next && poly2->next)
+	{
+		if (poly1->pow > poly2->pow)
+		{
+			poly->pow = poly1->pow;
+			poly->coeff = poly1->coeff;
+			poly1 = poly1->next;
+		}
+		else if (poly1->pow < poly2->pow)
+		{
+			poly->pow = poly2->pow;
+			poly->coeff = poly2->coeff;
+			poly2 = poly2->next;
+		}
+		else
+		{
+			poly->pow = poly1->pow;
+			poly->coeff = poly1->coeff + poly2->coeff;
+			poly1 = poly1->next;
+			poly2 = poly2->next;
+		}
 
-    while (poly1 != NULL || poly2 != NULL)
-    {
-        int coeff1 = (poly1 != NULL) ? poly1->coefficient : 0;
-        int coeff2 = (poly2 != NULL) ? poly2->coefficient : 0;
-        int exp1 = (poly1 != NULL) ? poly1->exponent : 0;
-        int exp2 = (poly2 != NULL) ? poly2->exponent : 0;
-
-        int sum_coeff = coeff1 + coeff2;
-
-        addTerm(&result, sum_coeff, exp1);
-
-        if (poly1 != NULL)
-            poly1 = poly1->next;
-        if (poly2 != NULL)
-            poly2 = poly2->next;
-    }
-
-    return result;
-}
-
-void displayPolynomial(struct Term *poly)
-{
-    if (poly == NULL)
-    {
-        printf("Polynomial is empty.\n");
-        return;
-    }
-
-    while (poly != NULL)
-    {
-        printf("%dx^%d", poly->coefficient, poly->exponent);
-        if (poly->next != NULL)
-        {
-            printf(" + ");
-        }
-        poly = poly->next;
-    }
-    printf("\n");
-}
-
-void freePolynomial(struct Term *poly)
-{
-    struct Term *current = poly;
-    while (current != NULL)
-    {
-        struct Term *temp = current;
-        current = current->next;
-        free(temp);
-    }
+		poly->next = (struct Node *)malloc(sizeof(struct Node));
+		poly = poly->next;
+		poly->next = NULL;
+	}
+	while (poly1->next || poly2->next)
+	{
+		if (poly1->next)
+		{
+			poly->pow = poly1->pow;
+			poly->coeff = poly1->coeff;
+			poly1 = poly1->next;
+		}
+		if (poly2->next)
+		{
+			poly->pow = poly2->pow;
+			poly->coeff = poly2->coeff;
+			poly2 = poly2->next;
+		}
+		poly->next = (struct Node *)malloc(sizeof(struct Node));
+		poly = poly->next;
+		poly->next = NULL;
+	}
 }
 
 int main()
 {
-    struct Term *polynomial1 = NULL;
-    struct Term *polynomial2 = NULL;
+	struct Node *poly1 = NULL, *poly2 = NULL, *poly = NULL;
+	create(10, 5, &poly1);
+	create(9, 5, &poly1);
+	create(3, 2, &poly1);
 
-    addTerm(&polynomial1, 3, 2);
-    addTerm(&polynomial1, -4, 1);
-    addTerm(&polynomial1, 1, 0);
+	create(3, 2, &poly2);
+	create(-3, 1, &poly2);
 
-    addTerm(&polynomial2, 2, 3);
-    addTerm(&polynomial2, 5, 1);
-    addTerm(&polynomial2, -2, 0);
+	display(poly1);
+	display(poly2);
 
-    printf("Polynomial 1: ");
-    displayPolynomial(polynomial1);
+	poly = (struct Node *)malloc(sizeof(struct Node));
 
-    printf("Polynomial 2: ");
-    displayPolynomial(polynomial2);
-
-    struct Term *result = addPolynomials(polynomial1, polynomial2);
-
-    printf("Result: ");
-    displayPolynomial(result);
-
-    freePolynomial(polynomial1);
-    freePolynomial(polynomial2);
-    freePolynomial(result);
-
-    return 0;
+	polyadd(poly1, poly2, poly);
+	display(poly);
+	return 0;
 }
