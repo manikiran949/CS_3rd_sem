@@ -3,11 +3,12 @@
 */
 
 /*
-    program to add two polynomial expressions that are represented using a singly linked list.
+	program to add two polynomial expressions that are represented using a singly linked list.
+	Time Complexity: O(m + n).
+	Space Complexity: O(m+n).
 */
 #include <stdio.h>
 #include <stdlib.h>
-
 struct Node
 {
 	int coeff;
@@ -15,46 +16,32 @@ struct Node
 	struct Node *next;
 };
 
-void create(int x, int y, struct Node **temp)
+void create_node(int x, int y, struct Node **temp)
 {
-	struct Node *first, *second;
-	second = *temp;
-	if (second == NULL)
+	struct Node *r, *z;
+	z = *temp;
+	if (z == NULL)
 	{
-		first = (struct Node *)malloc(sizeof(struct Node));
-		first->coeff = x;
-		first->pow = y;
-		*temp = first;
-		first->next = (struct Node *)malloc(sizeof(struct Node));
-		first = first->next;
-		first->next = NULL;
+		r = (struct Node *)malloc(sizeof(struct Node));
+		r->coeff = x;
+		r->pow = y;
+		*temp = r;
+		r->next = (struct Node *)malloc(sizeof(struct Node));
+		r = r->next;
+		r->next = NULL;
 	}
 	else
 	{
-		first->coeff = x;
-		first->pow = y;
-		first->next = (struct Node *)malloc(sizeof(struct Node));
-		first = first->next;
-		first->next = NULL;
+		r->coeff = x;
+		r->pow = y;
+		r->next = (struct Node *)malloc(sizeof(struct Node));
+		r = r->next;
+		r->next = NULL;
 	}
 }
 
-void display(struct Node *node)
-{
-	while (node->next != NULL)
-	{
-		printf("%dx^%d", node->coeff, node->pow);
-		node = node->next;
-		if (node->coeff >= 0)
-		{
-			if (node->next != NULL)
-				printf("+");
-		}
-	}
-	printf("\n");
-}
-
-void polyadd(struct Node *poly1, struct Node *poly2, struct Node *poly)
+void polyadd(struct Node *poly1, struct Node *poly2,
+			 struct Node *poly)
 {
 	while (poly1->next && poly2->next)
 	{
@@ -70,6 +57,7 @@ void polyadd(struct Node *poly1, struct Node *poly2, struct Node *poly)
 			poly->coeff = poly2->coeff;
 			poly2 = poly2->next;
 		}
+
 		else
 		{
 			poly->pow = poly1->pow;
@@ -102,22 +90,42 @@ void polyadd(struct Node *poly1, struct Node *poly2, struct Node *poly)
 	}
 }
 
+void show(struct Node *node)
+{
+	while (node->next != NULL)
+	{
+		printf("%dx^%d", node->coeff, node->pow);
+		node = node->next;
+		if (node->coeff >= 0)
+		{
+			if (node->next != NULL)
+				printf("+");
+		}
+	}
+}
+
 int main()
 {
 	struct Node *poly1 = NULL, *poly2 = NULL, *poly = NULL;
-	create(10, 5, &poly1);
-	create(9, 5, &poly1);
-	create(3, 2, &poly1);
 
-	create(3, 2, &poly2);
-	create(-3, 1, &poly2);
+	create_node(5, 2, &poly1);
+	create_node(4, 1, &poly1);
+	create_node(2, 0, &poly1);
 
-	display(poly1);
-	display(poly2);
+	create_node(-5, 1, &poly2);
+	create_node(-5, 0, &poly2);
+
+	printf("1st Number: ");
+	show(poly1);
+
+	printf("\n2nd Number: ");
+	show(poly2);
 
 	poly = (struct Node *)malloc(sizeof(struct Node));
-
 	polyadd(poly1, poly2, poly);
-	display(poly);
+
+	printf("\nAdded polynomial: ");
+	show(poly);
+
 	return 0;
 }
