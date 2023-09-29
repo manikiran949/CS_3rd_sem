@@ -2,7 +2,11 @@
    Mani Kiran , 2212056.
 */
 
-// Program to implement polynomial expression using a singly linked list.
+/*
+    Program to implement polynomial expression using a singly linked list.
+    time complexity is O(n)
+    space complexity is O(n)
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
