@@ -1,6 +1,17 @@
 /*
    Mani Kiran , 2212056
 */
+
+/*
+   program to insert in a doubly linked list as given below
+   (a) Insert at front
+   (b) Insert at last
+   (c) Insert after a given node
+   (d) Insert before a given node
+   
+   time complexity is O(n).
+   space complexity is O(n).
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
