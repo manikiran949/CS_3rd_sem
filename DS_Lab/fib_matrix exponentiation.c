@@ -1,4 +1,7 @@
 // finding nth fibonacci number in logn time using matrix exponentiation.
+/*
+   Time complexity - O(logn) , Space complexity - O(logn) if you consider the function call stack size , else O(1).
+*/
 
 #include<stdio.h>
 int fib(int n){
